@@ -2,7 +2,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Dialog } from '@headlessui/react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import {IconPencil} from "@tabler/icons-react";
+import { IconPencil } from '@tabler/icons-react'
 
 const navigation = [
     { name: 'Published', href: '/all-post-published' },
@@ -15,7 +15,6 @@ export default function AllPostTabs() {
 
     return (
         <header className='mt-36 absolute inset-x-0 top-0 z-50'>
-
             <nav
                 className='flex items-center justify-between p-6 lg:px-8'
                 aria-label='Global'
@@ -85,17 +84,11 @@ export default function AllPostTabs() {
                                         {item.name}
                                     </Link>
                                 ))}
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </Dialog.Panel>
-
             </Dialog>
-
         </header>
     )
 }

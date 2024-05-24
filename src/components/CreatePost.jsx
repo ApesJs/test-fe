@@ -14,25 +14,25 @@ export default function EditPost() {
     const validate = () => {
         const errors = {}
         if (!title) {
-            errors.title = "Title is required"
+            errors.title = 'Title is required'
         } else if (title.length < 20) {
-            errors.title = "Title must be at least 20 characters long"
+            errors.title = 'Title must be at least 20 characters long'
         }
 
         if (!content) {
-            errors.content = "Content is required"
+            errors.content = 'Content is required'
         } else if (content.length < 200) {
-            errors.content = "Content must be at least 200 characters long"
+            errors.content = 'Content must be at least 200 characters long'
         }
 
         if (!category) {
-            errors.category = "Category is required"
+            errors.category = 'Category is required'
         } else if (category.length < 3) {
-            errors.category = "Category must be at least 3 characters long"
+            errors.category = 'Category must be at least 3 characters long'
         }
 
         if (!status) {
-            errors.status = "Status is required"
+            errors.status = 'Status is required'
         }
 
         return errors
@@ -102,7 +102,9 @@ export default function EditPost() {
                                 className='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                             />
                             {errors.title && (
-                                <p className='mt-2 text-sm text-red-600'>{errors.title}</p>
+                                <p className='mt-2 text-sm text-red-600'>
+                                    {errors.title}
+                                </p>
                             )}
                         </div>
                     </div>
@@ -123,7 +125,9 @@ export default function EditPost() {
                                 onChange={(e) => setContent(e.target.value)}
                             />
                             {errors.content && (
-                                <p className='mt-2 text-sm text-red-600'>{errors.content}</p>
+                                <p className='mt-2 text-sm text-red-600'>
+                                    {errors.content}
+                                </p>
                             )}
                         </div>
                     </div>
@@ -144,7 +148,9 @@ export default function EditPost() {
                                 className='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                             />
                             {errors.category && (
-                                <p className='mt-2 text-sm text-red-600'>{errors.category}</p>
+                                <p className='mt-2 text-sm text-red-600'>
+                                    {errors.category}
+                                </p>
                             )}
                         </div>
                     </div>
@@ -170,7 +176,9 @@ export default function EditPost() {
                                 <option value='trash'>Trash</option>
                             </select>
                             {errors.status && (
-                                <p className='mt-2 text-sm text-red-600'>{errors.status}</p>
+                                <p className='mt-2 text-sm text-red-600'>
+                                    {errors.status}
+                                </p>
                             )}
                         </div>
                     </div>

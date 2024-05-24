@@ -5,9 +5,9 @@ import EditPost from './components/EditPost'
 import Preview from './components/Preview.jsx'
 import AppLayout from './components/AppLayout.jsx'
 import AllPosts from './components/AllPostPublished.jsx'
-import AllPostDrafted from "./components/AllPostDrafted.jsx";
-import AllPostTrashed from "./components/AllPostTrashed.jsx";
-import AllPostPublished from "./components/AllPostPublished.jsx";
+import AllPostDrafted from './components/AllPostDrafted.jsx'
+import AllPostTrashed from './components/AllPostTrashed.jsx'
+import AllPostPublished from './components/AllPostPublished.jsx'
 
 function App() {
     return (
@@ -28,7 +28,10 @@ function App() {
                     }
                 />
                 <Route path='/preview' element={<Preview />} />
-                <Route path='/all-post-published' element={<AllPostPublished />} />
+                <Route
+                    path='/all-post-published'
+                    element={<AllPostPublished />}
+                />
                 <Route path='/all-post-drafted' element={<AllPostDrafted />} />
                 <Route path='/all-post-trashed' element={<AllPostTrashed />} />
                 <Route path='/posts/:id' element={<PostDetail />} />
