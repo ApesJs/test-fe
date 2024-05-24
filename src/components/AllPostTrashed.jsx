@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AppLayout from './AppLayout.jsx'
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Pagination from "./Pagination.jsx";
 import AllPostTabs from "./AllPostTabs.jsx";
-import { IconPencil, IconTrash } from '@tabler/icons-react';
 
-export default function AllPost() {
-    const { id } = useParams()
+export default function AllPostTrashed() {
     const [posts, setPosts] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
-    const navigate = useNavigate()
 
     useEffect(() => {
         fetchPosts(currentPage)
@@ -22,7 +19,7 @@ export default function AllPost() {
             .get(`http://localhost:2024/posts/page/${page}`)
             .then((response) => {
                 const publishedPosts = response.data.data_posts.filter(
-                    (post) => post.status.toLowerCase() === 'publish',
+                    (post) => post.status.toLowerCase() === 'trash',
                 )
                 setPosts(publishedPosts)
                 setTotalPages(response.data.pagination.TotalPages)
@@ -32,16 +29,6 @@ export default function AllPost() {
 
     const handlePageChange = (page) => {
         setCurrentPage(page)
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        axios
-            .put(`http://localhost:2024/posts/trashed/${id}`)
-            .then(() => {
-                navigate('/all-post-published')
-            })
-            .catch((error) => console.error('Error updating post:', error))
     }
 
     return (
@@ -64,8 +51,7 @@ export default function AllPost() {
                     </thead>
                     <tbody>
                     {posts.map((post) => (
-                        <tr key={post.ID}
-                            className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+                        <tr key={post.ID} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
                             <th
                                 scope='row'
                                 className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
@@ -78,17 +64,11 @@ export default function AllPost() {
                                     to={`/edit/${post.ID}`}
                                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                                 >
-                                    <IconPencil/>
+                                    Edit
                                 </Link>
-                                <form onSubmit={handleSubmit} >
-                                <button type='submit' >
-                                    <IconTrash/>
-                                </button>
-                            </form>
-                        </td>
-
+                            </td>
                         </tr>
-                        ))}
+                    ))}
                     </tbody>
                 </table>
                 <Pagination

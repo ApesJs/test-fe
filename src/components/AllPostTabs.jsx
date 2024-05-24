@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const navigation = [
-    { name: 'Published', href: '/' },
-    { name: 'Drafts', href: '/preview' },
-    { name: 'Trashed', href: '/all-posts' },
+    { name: 'Published', href: '/all-post-published' },
+    { name: 'Drafts', href: '/all-post-drafted' },
+    { name: 'Trashed', href: '/all-post-trashed' },
 ]
 
 export default function AllPostTabs() {

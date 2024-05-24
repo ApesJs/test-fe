@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 const navigation = [
     { name: 'Homepage', href: '/' },
     { name: 'Preview', href: '/preview' },
-    { name: 'All Posts', href: '/all-posts' },
+    { name: 'All Posts', href: '/all-post-published' },
 ]
 
 export default function Navbar() {
