@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AppLayout from './AppLayout.jsx'
-import {Link, useNavigate, useParams} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Pagination from "./Pagination.jsx";
 import AllPostTabs from "./AllPostTabs.jsx";
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 
-export default function AllPost() {
+export default function AllPostPublished() {
     const { id } = useParams()
     const [posts, setPosts] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -34,20 +34,19 @@ export default function AllPost() {
         setCurrentPage(page)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleTrashClick = (postId) => {
         axios
-            .put(`http://localhost:2024/posts/trashed/${id}`)
+            .put(`http://localhost:2024/posts/trashed/${postId}`)
             .then(() => {
-                navigate('/all-post-published')
+                fetchPosts(currentPage); // Refresh the list after a post is trashed
             })
-            .catch((error) => console.error('Error updating post:', error))
+            .catch((error) => console.error('Error trashing post:', error))
     }
 
     return (
         <AppLayout>
             <AllPostTabs/>
-            <div className='mt-36 relative overflow-x-auto shadow-md sm:rounded-lg'>
+            <div className='mt-44 relative overflow-x-auto shadow-md sm:rounded-lg'>
                 <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
                     <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                     <tr>
@@ -56,6 +55,9 @@ export default function AllPost() {
                         </th>
                         <th scope='col' className='px-6 py-3'>
                             Category
+                        </th>
+                        <th scope='col' className='px-6 py-3'>
+                            Status
                         </th>
                         <th scope='col' className='px-6 py-3'>
                             Action
@@ -73,6 +75,7 @@ export default function AllPost() {
                                 {post.title.slice(0, 100) + '...'}
                             </th>
                             <td className='px-6 py-4'>{post.category}</td>
+                            <td className='px-6 py-4'>{post.status}</td>
                             <td className='px-6 py-4'>
                                 <Link
                                     to={`/edit/${post.ID}`}
@@ -80,15 +83,13 @@ export default function AllPost() {
                                 >
                                     <IconPencil/>
                                 </Link>
-                                <form onSubmit={handleSubmit} >
-                                <button type='submit' >
+                                <button onClick={() => handleTrashClick(post.ID)}>
                                     <IconTrash/>
                                 </button>
-                            </form>
-                        </td>
+                            </td>
 
                         </tr>
-                        ))}
+                    ))}
                     </tbody>
                 </table>
                 <Pagination

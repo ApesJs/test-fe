@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AppLayout from './AppLayout.jsx'
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Pagination from "./Pagination.jsx";
 import AllPostTabs from "./AllPostTabs.jsx";
+import { IconPencil, IconTrash } from '@tabler/icons-react';
 
-export default function AllPostDrafted() {
+export default function AllPostPublished() {
+    const { id } = useParams()
     const [posts, setPosts] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchPosts(currentPage)
@@ -31,27 +34,40 @@ export default function AllPostDrafted() {
         setCurrentPage(page)
     }
 
+    const handleTrashClick = (postId) => {
+        axios
+            .put(`http://localhost:2024/posts/trashed/${postId}`)
+            .then(() => {
+                fetchPosts(currentPage);
+            })
+            .catch((error) => console.error('Error trashing post:', error))
+    }
+
     return (
         <AppLayout>
             <AllPostTabs/>
-            <div className='mt-36 relative overflow-x-auto shadow-md sm:rounded-lg'>
+            <div className='mt-44 relative overflow-x-auto shadow-md sm:rounded-lg'>
                 <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
                     <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
-                        <tr>
-                            <th scope='col' className='px-6 py-3'>
-                                Title
-                            </th>
-                            <th scope='col' className='px-6 py-3'>
-                                Category
-                            </th>
-                            <th scope='col' className='px-6 py-3'>
-                                Action
-                            </th>
-                        </tr>
+                    <tr>
+                        <th scope='col' className='px-6 py-3'>
+                            Title
+                        </th>
+                        <th scope='col' className='px-6 py-3'>
+                            Category
+                        </th>
+                        <th scope='col' className='px-6 py-3'>
+                            Status
+                        </th>
+                        <th scope='col' className='px-6 py-3'>
+                            Action
+                        </th>
+                    </tr>
                     </thead>
                     <tbody>
                     {posts.map((post) => (
-                        <tr key={post.ID} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+                        <tr key={post.ID}
+                            className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
                             <th
                                 scope='row'
                                 className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
@@ -59,14 +75,19 @@ export default function AllPostDrafted() {
                                 {post.title.slice(0, 100) + '...'}
                             </th>
                             <td className='px-6 py-4'>{post.category}</td>
+                            <td className='px-6 py-4'>{post.status}</td>
                             <td className='px-6 py-4'>
                                 <Link
                                     to={`/edit/${post.ID}`}
                                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                                 >
-                                    Edit
+                                    <IconPencil/>
                                 </Link>
+                                <button onClick={() => handleTrashClick(post.ID)}>
+                                    <IconTrash/>
+                                </button>
                             </td>
+
                         </tr>
                     ))}
                     </tbody>
